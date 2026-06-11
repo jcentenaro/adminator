@@ -6,7 +6,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/puikinsh/Adminator-admin-dashboard?style=flat&logo=github&label=stars)](https://github.com/puikinsh/Adminator-admin-dashboard/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Made with Webpack 5](https://img.shields.io/badge/Webpack-5-8dd6f9.svg?logo=webpack&logoColor=black)](https://webpack.js.org/)
-[![No jQuery](https://img.shields.io/badge/jQuery-free-success.svg)](#why-vanilla-js)
+[![No jQuery](https://img.shields.io/badge/jQuery-free-success.svg)](#tech-stack)
 [![Dark mode](https://img.shields.io/badge/dark%20mode-ready-5a0fc8.svg)](#theming)
 
 **Adminator 4** is a vanilla-JS admin dashboard template with a token-driven CSS-variable design system, dark mode, and zero framework dependencies. **No jQuery. No Bootstrap.** Just clean HTML, modern CSS, and ~700 KB of production JS for the entire 18-page template.
@@ -422,13 +422,14 @@ See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
 ## More Resources from Colorlib
 
-- [Bootstrap Dashboards](https://colorlib.com/wp/free-bootstrap-admin-dashboard-templates/)
-- [Bootstrap Templates](https://colorlib.com/wp/free-bootstrap-templates/)
-- [HTML Templates](https://colorlib.com/wp/free-html-website-templates/)
-- [Free Admin Dashboards](https://colorlib.com/wp/free-html5-admin-dashboard-templates/)
-- [Website Templates](https://colorlib.com/wp/templates/)
+- [Free Bootstrap Admin Dashboards](https://colorlib.com/wp/free-bootstrap-admin-dashboard-templates/)
+- [HTML5 & CSS3 Login Forms](https://colorlib.com/wp/html5-and-css3-login-forms/)
+- [Bootstrap Registration Forms](https://colorlib.com/wp/free-bootstrap-registration-forms/)
+- [CSS Table Templates](https://colorlib.com/wp/css3-table-templates/)
+- [Bootstrap Sidebar Examples](https://colorlib.com/wp/bootstrap-sidebar/)
+- [Bootstrap 5 Templates](https://colorlib.com/wp/cat/bootstrap-5/)
+- [HTML Website Templates](https://colorlib.com/wp/templates/)
 - [Free CSS Templates](https://colorlib.com/wp/free-css-website-templates/)
-- [WordPress Themes](https://colorlib.com/wp/free-wordpress-themes/)
 
 ## License
 
