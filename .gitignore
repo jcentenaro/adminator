@@ -68,3 +68,14 @@ tsconfig.json
 .Trashes
 CLAUDE.md
 release.md
+
+# ----------------------------
+# Local-only assets / tooling
+# ----------------------------
+
+# GitHub social-preview image (uploaded directly to repo settings, not committed)
+docs/social-preview.png
+scripts/social-preview.mjs
+
+# Release artifacts produced by build scripts
+static_minified.zip
