@@ -1,6 +1,15 @@
-# Adminator — 2026 Admin Dashboard Template (v4.0.0)
+# Adminator — 2026 Admin Dashboard Template
 
-**Adminator 4.0** is a vanilla-JS admin dashboard template with a token-driven CSS-variable design system, dark mode, and zero framework dependencies. **No jQuery. No Bootstrap.** Just clean HTML, modern CSS, and ~700 KB of production JS for the entire 18-page template.
+[![npm version](https://img.shields.io/npm/v/adminator-admin-dashboard.svg?logo=npm&label=npm)](https://www.npmjs.com/package/adminator-admin-dashboard)
+[![npm downloads](https://img.shields.io/npm/dw/adminator-admin-dashboard.svg?logo=npm&label=downloads)](https://www.npmjs.com/package/adminator-admin-dashboard)
+[![jsDelivr](https://img.shields.io/jsdelivr/npm/hw/adminator-admin-dashboard.svg?logo=jsdelivr&label=jsDelivr)](https://www.jsdelivr.com/package/npm/adminator-admin-dashboard)
+[![GitHub stars](https://img.shields.io/github/stars/puikinsh/Adminator-admin-dashboard?style=flat&logo=github&label=stars)](https://github.com/puikinsh/Adminator-admin-dashboard/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Made with Webpack 5](https://img.shields.io/badge/Webpack-5-8dd6f9.svg?logo=webpack&logoColor=black)](https://webpack.js.org/)
+[![No jQuery](https://img.shields.io/badge/jQuery-free-success.svg)](#why-vanilla-js)
+[![Dark mode](https://img.shields.io/badge/dark%20mode-ready-5a0fc8.svg)](#theming)
+
+**Adminator 4** is a vanilla-JS admin dashboard template with a token-driven CSS-variable design system, dark mode, and zero framework dependencies. **No jQuery. No Bootstrap.** Just clean HTML, modern CSS, and ~700 KB of production JS for the entire 18-page template.
 
 > **Heads up — v4.0.0 is a ground-up rewrite.** New design system, new shell architecture, Bootstrap removed. If you prefer the previous design, the v3 codebase lives on the [`legacy-v3`](https://github.com/puikinsh/Adminator-admin-dashboard/tree/legacy-v3) branch and will continue to receive security updates.
 
@@ -202,6 +211,22 @@ import 'adminator-admin-dashboard/dist/style.css';
 Or copy the prebuilt files out of `node_modules/adminator-admin-dashboard/dist/` and serve them statically.
 
 > **⚠️ Don't pin to `@^2` or `@^3`.** Older majors on npm (2.7.x – 2.9.0) point to legacy code from before the 2026 redesign — they predate the token-driven design system, dark mode, and the new shell architecture. The latest `4.x` is what corresponds to this repository.
+
+### CDN (jsDelivr)
+
+The npm package ships the pre-built `dist/`, so the full static template is reachable via [jsDelivr](https://www.jsdelivr.com/package/npm/adminator-admin-dashboard) without installing anything. Each demo HTML references its CSS/JS via relative paths, so every page renders complete with all assets straight from the CDN:
+
+```text
+https://cdn.jsdelivr.net/npm/adminator-admin-dashboard@4/dist/index.html
+https://cdn.jsdelivr.net/npm/adminator-admin-dashboard@4/dist/email.html
+https://cdn.jsdelivr.net/npm/adminator-admin-dashboard@4/dist/calendar.html
+https://cdn.jsdelivr.net/npm/adminator-admin-dashboard@4/dist/charts.html
+https://cdn.jsdelivr.net/npm/adminator-admin-dashboard@4/dist/datatable.html
+```
+
+Useful for design-system inspection, quick prototyping, or embedding a single page in a sandbox. Pin to `@4` for the latest 4.x, or to `@4.1.5` for an exact release.
+
+**Heads-up on hashing.** Webpack emits content-hashed asset filenames (`style.ee7b6e3f.css`, `2026.f17e3cec.js`), so direct CDN URLs for those individual chunks change on every release. For a single-file `<script src>` drop-in with a stable URL, install via npm and bundle through your own setup. The CDN's strength here is the ready-to-use demo pages.
 
 ## Pages Included
 
