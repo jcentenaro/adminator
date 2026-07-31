@@ -8,11 +8,29 @@
  * change so colors stay in sync.
  */
 
-import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
-import interactionPlugin from '@fullcalendar/interaction';
+/*
+ * FullCalendar plus its four plugins is by far the heaviest dependency
+ * (~247 KB). It is loaded with a dynamic import() so only calendar.html pays
+ * for it — initCalendarPage() bails before the import when the page has no
+ * [data-fc] host.
+ */
+let FC = null;
+
+async function loadFullCalendar() {
+  if (FC) return FC;
+  const [core, dayGrid, timeGrid, list, interaction] = await Promise.all([
+    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/core'),
+    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/daygrid'),
+    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/timegrid'),
+    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/list'),
+    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/interaction'),
+  ]);
+  FC = {
+    Calendar: core.Calendar,
+    plugins: [dayGrid.default, timeGrid.default, list.default, interaction.default],
+  };
+  return FC;
+}
 
 const SEED_EVENTS = [
   { title: 'Q2 kickoff',         start: '2026-04-01T09:00', classNames: ['fc-cat-work'] },
@@ -84,12 +102,13 @@ function bindToolbar(host) {
   setTimeout(updateTitle, 0);
 }
 
-function build(host) {
+async function build(host) {
+  const { Calendar, plugins } = await loadFullCalendar();
   if (calendar) {
     try { calendar.destroy(); } catch { /* re-build below */ }
   }
   calendar = new Calendar(host, {
-    plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
+    plugins,
     initialView: 'dayGridMonth',
     initialDate: '2026-04-25',
     headerToolbar: false,

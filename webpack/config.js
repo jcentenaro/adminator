@@ -44,11 +44,11 @@ const resolve = {
     path.join(__dirname, '../node_modules'),
     path.join(manifest.paths.src, ''),
   ],
+  /* Only '@' survives. The '@/components', '@/utils' and '@/constants'
+     aliases pointed at directories deleted in the 2026 rewrite, so they
+     resolved to nothing. */
   alias: {
     '@': path.join(manifest.paths.src),
-    '@/components': path.join(manifest.paths.src, 'assets', 'scripts', 'components'),
-    '@/utils': path.join(manifest.paths.src, 'assets', 'scripts', 'utils'),
-    '@/constants': path.join(manifest.paths.src, 'assets', 'scripts', 'constants'),
   },
 };
 
@@ -59,30 +59,22 @@ const optimization = {
     chunks: 'all',
     maxInitialRequests: 25,
     minSize: 20000,
+    /* No hand-written vendor cacheGroups.
+       Chart.js, FullCalendar and jsvectormap are each reached through a single
+       dynamic import() carrying a webpackChunkName comment, so webpack already
+       emits one async chunk per library. A catch-all `vendors` group with a
+       static `name` actively fights that — it collapses every node_modules
+       module into one chunk, which is how calendar.html ended up downloading
+       Chart.js. Anything genuinely shared still gets split by the defaults. */
     cacheGroups: {
-      // Vendor chunks
-      chartjs: {
-        test: /[\\/]node_modules[\\/]chart\.js[\\/]/,
-        name: 'vendor-chartjs',
-        priority: 30,
-      },
-      fullcalendar: {
-        test: /[\\/]node_modules[\\/]@fullcalendar[\\/]/,
-        name: 'vendor-fullcalendar',
-        priority: 30,
-      },
-      // Other node_modules
-      vendors: {
-        test: /[\\/]node_modules[\\/]/,
-        name: 'vendors',
-        priority: 10,
-        reuseExistingChunk: true,
-      },
-      // Common code shared between entry points
-      common: {
-        name: 'common',
+      /* webpack's built-in `defaultVendors` group re-splits node_modules code
+         out of our named async chunks, which left jsvectormap's library code in
+         an unnamed numeric chunk and the readable name on a 0.1 KB stub.
+         Turning it off keeps each library in the chunk its import() named. */
+      defaultVendors: false,
+      default: {
         minChunks: 2,
-        priority: 5,
+        priority: -20,
         reuseExistingChunk: true,
       },
     },

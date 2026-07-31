@@ -1,16 +1,27 @@
 /**
  * Chart.js wiring for the 2026 design system.
  *
- * Pages declare charts as <canvas data-chart="<type>" data-key="<seed>"></canvas>.
+ * Pages declare charts as <canvas data-chart-key="<seed>"></canvas>.
  * This module reads CSS variables for theme colors so charts match the active
  * theme, instantiates a Chart.js instance, and re-renders on theme toggle.
  *
  * To keep the chart-page demo visually rich, the seeds are baked-in samples
- * keyed by data-key.
+ * keyed by data-chart-key.
+ *
+ * Chart.js (~192 KB) is loaded with a dynamic import() so only the two pages
+ * that actually draw charts pay for it. initCharts() bails before the import
+ * when the page has no [data-chart-key] canvas.
  */
 
-import { Chart, registerables } from 'chart.js';
-Chart.register(...registerables);
+let Chart = null;
+
+async function loadChartJs() {
+  if (Chart) return Chart;
+  const mod = await import(/* webpackChunkName: "vendor-chartjs" */ 'chart.js');
+  Chart = mod.Chart;
+  Chart.register(...mod.registerables);
+  return Chart;
+}
 
 function tokens() {
   const cs = getComputedStyle(document.documentElement);
@@ -235,7 +246,8 @@ export const SEEDS = {
 
 const instances = new Map();
 
-function buildAll() {
+async function buildAll() {
+  await loadChartJs();
   const t = tokens();
   applyDefaults(t);
   document.querySelectorAll('canvas[data-chart-key]').forEach((canvas) => {

@@ -4,11 +4,20 @@
  * Pages declare a vector map as <div data-vmap></div>; this module fills it
  * with a world map themed using the active CSS variables and re-renders on
  * theme change.
+ *
+ * jsvectormap plus its world map data is loaded with a dynamic import() so
+ * only vector-maps.html pays for it — initVectorMaps() bails before the
+ * import when the page has no [data-vmap] host.
  */
 
-import jsVectorMap from 'jsvectormap';
-import 'jsvectormap/dist/maps/world.js';
-import 'jsvectormap/dist/jsvectormap.css';
+let jsVectorMap = null;
+
+async function loadVectorMap() {
+  if (jsVectorMap) return jsVectorMap;
+  const mod = await import(/* webpackChunkName: "vendor-jsvectormap" */ './vendor-jsvectormap.js');
+  jsVectorMap = mod.default;
+  return jsVectorMap;
+}
 
 const MARKERS = [
   { name: 'Riga',         coords: [56.95, 24.10] },
@@ -37,7 +46,8 @@ function tokens() {
   };
 }
 
-function buildOne(host) {
+async function buildOne(host) {
+  await loadVectorMap();
   // Destroy old instance if rebuilding
   const prev = instances.get(host);
   if (prev) {
