@@ -1,6 +1,12 @@
 /* ============ RESET + BASE — 2026 ============ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* Fonts are NOT imported here.
+   A CSS `@import` ends up inside the built stylesheet, so the browser has to
+   download and parse style.css before it even discovers fonts.googleapis.com —
+   a three-hop blocking chain (HTML -> style.css -> Google CSS -> font files).
+   Each page now carries <link rel="preconnect"> + the stylesheet in <head>
+   instead, so the font request starts in parallel with style.css. If you add a
+   page, copy that block from any existing page. */
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
