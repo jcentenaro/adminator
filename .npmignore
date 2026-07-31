@@ -1,13 +1,15 @@
+# NOTE: package.json "files" is the authority for what ships to npm.
+# This file only matters for the paths "files" lets through.
+
 # Development files
 node_modules/
 .git/
 .gitignore
-.eslintrc.js
+eslint.config.mjs
 .stylelintrc.json
 
 # Build artifacts that aren't needed
 webpack.config.js
-babel.config.js
 
 # Documentation that's not essential for npm users
 .github/

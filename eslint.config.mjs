@@ -1,7 +1,8 @@
 import globals from "globals";
-import babelParser from "@babel/eslint-parser";
 import js from "@eslint/js";
 
+// Parsed by ESLint's built-in espree — Babel was removed in 4.2.0 and the
+// source is plain modern ESM, so there is no non-standard syntax to handle.
 export default [
     {
         files: ["**/*.js", "**/*.mjs", "**/*.jsx"],
@@ -10,29 +11,8 @@ export default [
                 ...globals.browser,
                 ...globals.node,
             },
-            parser: babelParser,
-            ecmaVersion: 2018,
+            ecmaVersion: 2022,
             sourceType: "module",
-            parserOptions: {
-                requireConfigFile: false,
-                babelOptions: {
-                    babelrc: false,
-                    configFile: false,
-                    presets: ["@babel/preset-env"],
-                },
-                ecmaFeatures: {
-                    modules: true,
-                    destructuring: true,
-                    classes: true,
-                    forOf: true,
-                    blockBindings: true,
-                    arrowFunctions: true,
-                },
-            },
-        },
-
-        settings: {
-            ecmascript: 7,
         },
 
         rules: {

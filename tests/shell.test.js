@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { mountShell, NAV } from '../src/assets/scripts/2026/Shell.js';
 
 function setupShellDom({ active = '', crumbs = '' } = {}) {
