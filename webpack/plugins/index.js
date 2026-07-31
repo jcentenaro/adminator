@@ -15,9 +15,9 @@ if (manifest.IS_DEVELOPMENT) {
   plugins.push(require('./dashboardPlugin'));
 }
 
-if (manifest.IS_PRODUCTION) {
-  plugins.push(require('./copyPlugin'));
-}
+/* Note: copyPlugin is registered once, above. It used to be pushed a second
+   time under IS_PRODUCTION — and because require() is cached, that was the
+   same plugin instance running its copy twice per production build. */
 
 // Bundle analyzer - run with ANALYZE=true npm run build
 if (process.env.ANALYZE === 'true') {
