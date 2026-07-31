@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [22.x]
+        # Both supported majors. jsdom 30 needs >= 22.22.2, so 22.x must
+        # resolve to a recent 22 — see "engines" in package.json.
+        node-version: [22.x, 24.x]
 
     steps:
       - name: Checkout repository
@@ -28,6 +31,12 @@ jobs:
 
       - name: Run linting
         run: npm run lint
+
+      - name: Run tests
+        run: npm run test:run
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
 
       - name: Build
         run: npm run build

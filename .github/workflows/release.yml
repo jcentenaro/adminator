@@ -29,15 +29,28 @@ jobs:
       - name: Run linting
         run: npm run lint
 
+      - name: Run tests
+        run: npm run test:run
+
+      # `zip -j` junks paths, which flattened assets/static/** to the archive
+      # root and broke every relative asset reference in the released zips.
+      # Zipping from inside dist/ preserves the directory structure.
       - name: Build minified release
         run: |
           npm run release:minified
-          zip -r -j static_minified.zip dist/*
+          (cd dist && zip -r ../static_minified.zip .)
 
       - name: Build unminified release
         run: |
           npm run release:unminified
-          zip -r -j static_unminified.zip dist/*
+          (cd dist && zip -r ../static_unminified.zip .)
+
+      - name: Verify release archive structure
+        run: |
+          unzip -l static_minified.zip | grep -q 'assets/static/' \
+            || { echo "::error::Release zip lost its assets/static/ paths"; exit 1; }
+          unzip -l static_minified.zip | grep -q 'index.html' \
+            || { echo "::error::Release zip is missing index.html"; exit 1; }
 
       - name: Get version
         id: version
