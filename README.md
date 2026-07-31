@@ -141,20 +141,24 @@ A ground-up redesign and rewrite. The whole template is built around a single CS
 
 ### Bundle size
 
-| Metric                     | v3.0.0           | v4.0.0           | Δ        |
-| -------------------------- | ---------------- | ---------------- | -------- |
-| Production JS (total)      | ~4.5 MB          | ~700 KB          | **−85%** |
-| Production CSS             | ~280 KB          | 90 KB            | **−68%** |
-| Top-level npm dependencies | 16               | 8                | **−50%** |
+Since v4.2.0 the three heavy libraries are lazy-loaded, so what a page costs depends on what it actually renders.
 
-See [CHANGELOG.md](CHANGELOG.md#400---2026-04-27) for the full release notes, including the migration guide.
+| Metric                              | v3.0.0  | v4.0.0  | v4.2.0                |
+| ----------------------------------- | ------- | ------- | --------------------- |
+| JS + CSS on **every** page          | ~4.8 MB | 726 KB  | **130 KB** (28 KB gz) |
+| Chart.js, fetched by 2 of 18 pages  | bundled | bundled | 200 KB (67 KB gz)     |
+| FullCalendar, fetched by 1 of 18    | bundled | bundled | 270 KB (78 KB gz)     |
+| jsvectormap, fetched by 1 of 18     | bundled | bundled | 133 KB (49 KB gz)     |
+| Top-level npm dependencies          | 16      | 8       | **3**                 |
+
+See [CHANGELOG.md](CHANGELOG.md) for the full release notes, including the migration guide.
 
 ## Quick Start
 
 ### Prerequisites
 
-- **Node.js** 18.12 or higher
-- **npm** 9 or higher (ships with Node.js)
+- **Node.js** 22.22.2 or higher (24 LTS recommended — see `.nvmrc`)
+- **npm** 10 or higher (ships with Node.js)
 
 ### Install and run
 
@@ -346,11 +350,14 @@ Charts/maps re-render automatically — they observe the `data-theme` attribute.
 
 ### Build & tooling
 
-- [**Webpack 5**](https://webpack.js.org/) — bundler (Vite migration planned for v4.1)
+- [**Webpack 5**](https://webpack.js.org/) — bundler
 - [**Sass**](https://sass-lang.com/) (modern `@use` syntax) — preprocessor
 - [**PostCSS**](https://postcss.org/) — autoprefix + future-CSS
-- [**ESLint 9**](https://eslint.org/) (flat config) + [**Stylelint 17**](https://stylelint.io/) — linting
-- [**Babel**](https://babeljs.io/) — ES2020+ transpilation
+- [**ESLint 10**](https://eslint.org/) (flat config) + [**Stylelint 17**](https://stylelint.io/) — linting
+- [**Vitest 4**](https://vitest.dev/) + jsdom — unit tests
+- No transpiler. Webpack 5 parses ES modules natively and the browser targets
+  (Chrome/Firefox 90+, Safari/iOS 15+) need no downlevelling, so Babel was
+  removed in v4.2.0 after an A/B build proved it changed nothing.
 
 ### Runtime libraries
 

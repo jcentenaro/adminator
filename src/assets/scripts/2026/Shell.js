@@ -138,7 +138,7 @@ function renderSidebar(activeKey) {
         <div class="brand-logo">${BRAND_LOGO}</div>
         <div class="brand-text">
           <div class="brand-name">Adminator</div>
-          <div class="brand-tag">v4.1.5 · preview</div>
+          <div class="brand-tag">v4.2.0 · preview</div>
         </div>
       </div>
       ${sections}
@@ -294,7 +294,7 @@ function renderFooter() {
     <footer class="d-footer">
       <div>© 2026 · Designed by <a href="https://colorlib.com" target="_blank" rel="nofollow noopener noreferrer">Colorlib</a></div>
       <div class="d-footer-meta">
-        <span>v4.1.5</span>
+        <span>v4.2.0</span>
         <span>preview build</span>
       </div>
     </footer>`;

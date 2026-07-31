@@ -1,5 +1,57 @@
 # Changelog
 
+## [4.2.0] - 2026-07-31
+
+Dependency refresh plus a performance, security and workflow audit.
+
+### Every page was downloading every library
+
+Chart.js, FullCalendar and jsvectormap were all statically imported into the single entry bundle, so all 18 pages shipped all three — `signin.html` downloaded FullCalendar to render a login form. Each is now behind a dynamic `import()` that runs only after its mount point (`[data-chart-key]`, `[data-fc]`, `[data-vmap]`) is found on the page.
+
+| | before | after |
+|---|---|---|
+| Initial JS + CSS, every page | 726 KB (219 KB gzip) | **130 KB (28 KB gzip)** |
+| Pages loading FullCalendar | 18 | 1 |
+| Pages loading Chart.js | 18 | 2 |
+| Pages loading jsvectormap | 18 | 1 |
+
+`splitChunks` was rewritten to make this work: a catch-all `vendors` cacheGroup with a static `name`, plus webpack's built-in `defaultVendors`, were collapsing the three async chunks back into one 602 KB bundle. Both are gone.
+
+### Babel removed
+
+An A/B build showed Babel was a complete no-op: ES2019 syntax passed through untransformed, no helpers were emitted, and `@babel/runtime` — a production dependency — was referenced by nothing in `dist/`. webpack 5 parses ESM natively and the browserslist floor (Chrome/Firefox 90, Safari/iOS 15) needs no downlevelling. Dropped `@babel/core`, `@babel/preset-env`, `@babel/plugin-transform-runtime`, `@babel/eslint-parser`, `babel-loader` and `@babel/runtime`; ESLint now uses its built-in espree parser.
+
+### Security
+
+`npm audit` went from **18 vulnerabilities (1 critical, 13 high) to 0**. All were dev-tooling transitives — none ever reached `dist/` — but they gated cleanly on upgrading webpack-dev-server and dropping Babel's old `minimatch`/`brace-expansion` chain. CI now runs `npm audit --omit=dev --audit-level=high` on every PR.
+
+### Fixed
+
+- **Release zips were built with `zip -j`**, which junks paths and flattened `assets/static/**` into the archive root. Now zipped from inside `dist/`, with a CI step that fails the release if the structure is lost.
+- **`terser-webpack-plugin` was `require`d but never declared** in `package.json`. It resolved only by accident through webpack's own dependency hoisting, and broke outright when webpack 5.109 swapped its bundled minimizer. Now an explicit devDependency.
+- **CopyWebpackPlugin ran twice per production build** — it was pushed unconditionally and again under `IS_PRODUCTION`, and `require()` caching made both the same instance.
+- **`HotModuleReplacementPlugin` was registered twice** in development, once manually and once by `devServer.hot: true`.
+- Google Fonts moved out of a CSS `@import` (a three-hop blocking chain: HTML → style.css → Google CSS → fonts) into per-page `<link rel="preconnect">` + stylesheet tags.
+- Dead `@/components`, `@/utils`, `@/constants` webpack aliases and matching `jsconfig.json` paths, all pointing at directories deleted in the 2026 rewrite.
+- `Shell.js` still rendered `v4.1.5` in the sidebar and footer while `package.json` said `4.1.6`.
+
+### Workflow
+
+- CI now runs the 75 existing tests. Previously `merge.yml` ran only lint and build, so the suite gated nothing.
+- Test matrix widened to Node 22.x **and** 24.x.
+- `engines` corrected from `>=14.0.0` to `>=22.22.2` (the real floor set by jsdom 30 and webpack-dev-server 6); `.nvmrc` moved from the EOL Node 20 to 24.
+- `npm run lint:js` now covers `tests/` as well as `src/` and `webpack/`.
+
+### Dependencies
+
+ESLint 9 → **10**, jsdom 29 → **30**, webpack-dev-server 5 → **6**, plus webpack 5.109.2, sass 1.102, stylelint 17.14.1, vitest 4.1.10, playwright 1.62.1, postcss 8.5.25 and others to latest.
+
+FullCalendar stays on **6.1.21**: `@fullcalendar/core` has a stable 7.0.2, but `daygrid`, `timegrid`, `list` and `interaction` are still only at `7.0.0-rc.0`, and mixing a stable core with RC plugins is not safe.
+
+### Known, unchanged
+
+`src/assets/static/` (2.2 MB — FontAwesome, Themify, `bg.jpg`, `500.png`, `404.png`, `logo.png`, `logo.svg`) is referenced by no HTML, SCSS or JS, but is still copied into `dist/` and shipped in both release zips.
+
 ## [4.1.5] - 2026-05-22
 
 ### Sidebar scroll + submenu clipping fix at rail widths
