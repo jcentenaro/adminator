@@ -147,7 +147,7 @@ Since v4.2.0 the three heavy libraries are lazy-loaded, so what a page costs dep
 | ----------------------------------- | ------- | ------- | --------------------- |
 | JS + CSS on **every** page          | ~4.8 MB | 726 KB  | **130 KB** (28 KB gz) |
 | Chart.js, fetched by 2 of 18 pages  | bundled | bundled | 200 KB (67 KB gz)     |
-| FullCalendar, fetched by 1 of 18    | bundled | bundled | 270 KB (78 KB gz)     |
+| FullCalendar, fetched by 1 of 18    | bundled | bundled | 287 KB + 15 KB CSS (84 gz) |
 | jsvectormap, fetched by 1 of 18     | bundled | bundled | 133 KB (49 KB gz)     |
 | Top-level npm dependencies          | 16      | 8       | **3**                 |
 
@@ -268,7 +268,7 @@ src/
     │   ├── Shell.js             # NAV manifest + sidebar/topbar/footer renderers
     │   ├── init.js              # theme toggle, dropdowns, accordions, tabs, etc.
     │   ├── charts.js            # Chart.js seeds, theme-aware
-    │   ├── calendar.js          # FullCalendar, theme-aware
+    │   ├── calendar.js          # FullCalendar 7, theme-aware
     │   └── maps.js              # jsvectormap, theme-aware
     └── styles/2026/             # The only SCSS — 18 partials
         ├── index.scss           # entry, @use's everything below
@@ -279,7 +279,7 @@ src/
         ├── _forms.scss          # inputs, select, switch, check, radio
         ├── _auth.scss / _error.scss / _chat.scss / _data.scss / _charts.scss
         ├── _dashboard.scss / _email.scss / _calendar.scss
-        ├── _fullcalendar.scss   # FullCalendar token overrides
+        ├── _fullcalendar.scss   # FullCalendar 7 token bridge
         └── _responsive.scss     # all media queries in one place
 ```
 
@@ -362,7 +362,7 @@ Charts/maps re-render automatically — they observe the `data-theme` attribute.
 ### Runtime libraries
 
 - [**Chart.js 4.5**](https://www.chartjs.org/) — line/bar/doughnut/radar/area/stacked charts
-- [**FullCalendar 6.1**](https://fullcalendar.io/) — Day/Week/Month/Agenda calendar views
+- [**FullCalendar 7**](https://fullcalendar.io/) — Day/Week/Month/Agenda calendar views
 - [**jsvectormap 1.7**](https://github.com/themustafaomar/jsvectormap) — interactive world map
 
 ### Fonts

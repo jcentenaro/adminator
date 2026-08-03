@@ -1,5 +1,41 @@
 # Changelog
 
+## [4.3.0] - 2026-08-03
+
+### FullCalendar 7
+
+FullCalendar 7 collapsed the `@fullcalendar/*` scope into a single `fullcalendar` package with subpath exports. Five dependencies became one:
+
+```
+@fullcalendar/core        ┐
+@fullcalendar/daygrid     │
+@fullcalendar/timegrid    ├─►  fullcalendar  +  fullcalendar/{daygrid,timegrid,list,interaction}
+@fullcalendar/list        │
+@fullcalendar/interaction ┘
+```
+
+**`npm outdated` is actively misleading here.** It reports `@fullcalendar/core 6.1.21 → 7.0.2`, but in v7 that package is no longer the calendar — it holds a few shared TypeScript types and ships an empty `index.d.ts`. Taking that upgrade on its own removes the `Calendar` class entirely. The four plugin packages still have no stable 7.x and never will; they moved into subpaths. This is noted in CLAUDE.md so nobody re-"fixes" it.
+
+### Restyled against v7's theming model
+
+v7 renders **hashed class names** (`.fc-Kf`, `.fc-classic-YjJ`) that change between builds, so the old approach of overriding `.fc-daygrid-day` and friends is gone for good. Instead the calendar now loads the `classic` theme's structure and skips its `palette.css`, and `_fullcalendar.scss` maps every `--fc-classic-*` variable onto a 2026 design token.
+
+The result is less code doing more: **180 lines → 78**, and light/dark now works because the tokens already switch on `[data-theme]`, rather than through a duplicated set of dark-mode rules.
+
+Three v7 behaviours worth recording, each of which silently produces a wrong-looking calendar rather than an error:
+
+- Event colours must be set as `--fc-classic-event` / `--fc-classic-event-contrast`. FullCalendar writes `--fc-event-color: var(--fc-classic-event)` as an **inline style** on every event, and inline beats any class rule, so setting `--fc-event-color` in CSS does nothing.
+- Per-event classes are now `className: 'x'` (string). v6's `classNames: ['x']` (array) is dropped silently, leaving every event in the default colour.
+- Month-view timed events default to a dot plus label; `eventDisplay: 'block'` restores the filled pill.
+
+Column headers are rendered through `dayHeaderContent` into a `.fc-dow` span, since there is no longer a stable class to target for the mono uppercase treatment.
+
+### Verified
+
+All four views (Day/Week/Month/Agenda) in both themes, theme toggling live (event backgrounds move `#EFF6FF` → `#0F2847`), all 18 pages driven through Chromium, 75 tests, lint 0/0, 0 vulnerabilities.
+
+Calendar chunk is 287 KB + 15 KB CSS (84 KB gzip combined) against v6's 270 KB (78 KB gzip) — about 6 KB gzip more, still fetched only by `calendar.html`. Every other page's payload is unchanged at ~128 KB.
+
 ## [4.2.1] - 2026-08-03
 
 ### The npm package shipped a development build

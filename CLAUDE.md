@@ -119,6 +119,7 @@ Modules self-activate by querying the DOM — a page opts into a widget purely w
 | `<canvas data-chart-key="revenue-line">` | `charts.js` | key must exist in `SEEDS` |
 | `<div data-vmap>` | `maps.js` | world map, fixed marker list |
 | `<div data-fc>` | `calendar.js` | single instance; toolbar bound via `.cal-nav-btn` / `.cal-today-btn` / `.cal-view-tab` |
+
 | `[data-accordion]` + `[data-accordion-trigger]` | `init.js` | toggles `is-open` |
 | `.todo-check` inside `.todo-item` | `init.js` | toggles `is-done` |
 | `[data-dropdown]` inside `.dd-wrap` | `init.js` | one open at a time, Esc/outside-click closes |
@@ -145,6 +146,20 @@ Add a seed function to `SEEDS` in `src/assets/scripts/2026/charts.js`, keyed by 
 Then in any page: `<canvas data-chart-key="my-chart"></canvas>`. The `t` argument is a tokens object with the active theme's `primary`, `success`, `danger`, etc. — use `t.primary`, ``` `${t.primary}24` ``` for transparency, etc., never hex literals. `tests/charts-seeds.test.js` asserts every seed actually consumes the tokens it's handed, so a hard-coded color will fail the suite.
 
 `SEEDS` is a plain data map with no Chart.js import, which is what lets the library stay behind a dynamic `import()` — keep it that way. `buildAll()` awaits `loadChartJs()` before instantiating anything.
+
+## Styling FullCalendar (v7)
+
+FullCalendar 7 is **one** package (`fullcalendar`) with subpath exports, not the old `@fullcalendar/*` scope. `vendor-fullcalendar.js` pulls in the calendar, its four plugins, the `classic` theme plugin, `skeleton.css` and the theme's `theme.css` — but deliberately **not** the theme's `palette.css`, because `_fullcalendar.scss` supplies the palette from 2026 tokens instead. That is what makes the calendar follow light/dark automatically.
+
+Three things will trip you up:
+
+1. **v7 emits hashed class names** (`.fc-Kf`, `.fc-classic-YjJ`) that change between builds. Never write a selector against them. Style through CSS variables, or render your own element via a content callback (`dayHeaderContent` does this for the `.fc-dow` column headers) and style that.
+2. **Event colours must be set as `--fc-classic-event` / `--fc-classic-event-contrast`, not `--fc-event-color`.** FullCalendar writes `--fc-event-color: var(--fc-classic-event)` as an *inline style* on every event element, and inline styles outrank class rules — so setting `--fc-event-color` in CSS is silently ignored.
+3. **Per-event classes use `className: 'x'` (string), not v6's `classNames: ['x']` (array).** The array form is dropped without warning, which just makes every event render in the default colour.
+
+`eventDisplay: 'block'` in `calendar.js` is what makes month-view timed events paint as filled pills rather than a dot plus label.
+
+**`npm outdated` lies about FullCalendar.** It will report `@fullcalendar/core` as upgradable — in v7 that package is only shared TypeScript types with an empty `index.d.ts`, and installing it does not give you a `Calendar` class. It is not a dependency of this project any more; ignore the row.
 
 ## Adding a new theme variable
 

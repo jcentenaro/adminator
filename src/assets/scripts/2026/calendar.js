@@ -18,45 +18,36 @@ let FC = null;
 
 async function loadFullCalendar() {
   if (FC) return FC;
-  const [core, dayGrid, timeGrid, list, interaction] = await Promise.all([
-    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/core'),
-    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/daygrid'),
-    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/timegrid'),
-    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/list'),
-    import(/* webpackChunkName: "vendor-fullcalendar" */ '@fullcalendar/interaction'),
-  ]);
-  FC = {
-    Calendar: core.Calendar,
-    plugins: [dayGrid.default, timeGrid.default, list.default, interaction.default],
-  };
+  const mod = await import(/* webpackChunkName: "vendor-fullcalendar" */ './vendor-fullcalendar.js');
+  FC = { Calendar: mod.Calendar, plugins: mod.plugins };
   return FC;
 }
 
 const SEED_EVENTS = [
-  { title: 'Q2 kickoff',         start: '2026-04-01T09:00', classNames: ['fc-cat-work'] },
-  { title: 'Design review',      start: '2026-04-02T11:00', classNames: ['fc-cat-team'] },
-  { title: 'Lunch w/ Marcus',    start: '2026-04-03T13:00', classNames: ['fc-cat-personal'] },
-  { title: '🎂 Sara birthday',    start: '2026-04-05',      allDay: true, classNames: ['fc-cat-birthday'] },
-  { title: 'Standup',            start: '2026-04-07T10:00', classNames: ['fc-cat-work'] },
-  { title: 'Brand workshop',     start: '2026-04-07T14:00', classNames: ['fc-cat-team'] },
-  { title: 'All-hands',          start: '2026-04-08T15:00', classNames: ['fc-cat-work'] },
-  { title: '✈ Lisbon trip',       start: '2026-04-09',      end: '2026-04-13', allDay: true, classNames: ['fc-cat-travel'] },
-  { title: 'Investor sync',      start: '2026-04-14T16:00', classNames: ['fc-cat-work'] },
-  { title: '📑 Tax deadline',     start: '2026-04-15',      allDay: true, classNames: ['fc-cat-finance'] },
-  { title: 'Invoice approval',   start: '2026-04-17T12:00', classNames: ['fc-cat-finance'] },
-  { title: 'Run with Mira',      start: '2026-04-20T07:00', classNames: ['fc-cat-personal'] },
-  { title: 'Earth day talk',     start: '2026-04-22T14:00', classNames: ['fc-cat-team'] },
-  { title: '✓ Dependency merge', start: '2026-04-23',      allDay: true, classNames: ['fc-cat-work'] },
-  { title: 'Coffee w/ Rita',     start: '2026-04-24T10:00', classNames: ['fc-cat-personal'] },
-  { title: 'PR reviews',         start: '2026-04-24T15:00', classNames: ['fc-cat-work'] },
-  { title: 'Run · 5K',           start: '2026-04-25T07:00', classNames: ['fc-cat-personal'] },
-  { title: "Dinner @ Carla's",   start: '2026-04-25T20:00', classNames: ['fc-cat-personal'] },
-  { title: 'Sprint planning',    start: '2026-04-27T10:00', classNames: ['fc-cat-work'] },
-  { title: 'Board review',       start: '2026-04-28T14:00', classNames: ['fc-cat-work'] },
-  { title: 'Eng review',         start: '2026-04-28T17:00', classNames: ['fc-cat-team'] },
-  { title: 'Anya 1:1',           start: '2026-04-29T11:30', classNames: ['fc-cat-team'] },
-  { title: 'Newsletter goes out',start: '2026-04-30T09:00', classNames: ['fc-cat-team'] },
-  { title: 'Yoga',               start: '2026-04-30T19:00', classNames: ['fc-cat-personal'] },
+  { title: 'Q2 kickoff',         start: '2026-04-01T09:00', className: 'fc-cat-work' },
+  { title: 'Design review',      start: '2026-04-02T11:00', className: 'fc-cat-team' },
+  { title: 'Lunch w/ Marcus',    start: '2026-04-03T13:00', className: 'fc-cat-personal' },
+  { title: '🎂 Sara birthday',    start: '2026-04-05',      allDay: true, className: 'fc-cat-birthday' },
+  { title: 'Standup',            start: '2026-04-07T10:00', className: 'fc-cat-work' },
+  { title: 'Brand workshop',     start: '2026-04-07T14:00', className: 'fc-cat-team' },
+  { title: 'All-hands',          start: '2026-04-08T15:00', className: 'fc-cat-work' },
+  { title: '✈ Lisbon trip',       start: '2026-04-09',      end: '2026-04-13', allDay: true, className: 'fc-cat-travel' },
+  { title: 'Investor sync',      start: '2026-04-14T16:00', className: 'fc-cat-work' },
+  { title: '📑 Tax deadline',     start: '2026-04-15',      allDay: true, className: 'fc-cat-finance' },
+  { title: 'Invoice approval',   start: '2026-04-17T12:00', className: 'fc-cat-finance' },
+  { title: 'Run with Mira',      start: '2026-04-20T07:00', className: 'fc-cat-personal' },
+  { title: 'Earth day talk',     start: '2026-04-22T14:00', className: 'fc-cat-team' },
+  { title: '✓ Dependency merge', start: '2026-04-23',      allDay: true, className: 'fc-cat-work' },
+  { title: 'Coffee w/ Rita',     start: '2026-04-24T10:00', className: 'fc-cat-personal' },
+  { title: 'PR reviews',         start: '2026-04-24T15:00', className: 'fc-cat-work' },
+  { title: 'Run · 5K',           start: '2026-04-25T07:00', className: 'fc-cat-personal' },
+  { title: "Dinner @ Carla's",   start: '2026-04-25T20:00', className: 'fc-cat-personal' },
+  { title: 'Sprint planning',    start: '2026-04-27T10:00', className: 'fc-cat-work' },
+  { title: 'Board review',       start: '2026-04-28T14:00', className: 'fc-cat-work' },
+  { title: 'Eng review',         start: '2026-04-28T17:00', className: 'fc-cat-team' },
+  { title: 'Anya 1:1',           start: '2026-04-29T11:30', className: 'fc-cat-team' },
+  { title: 'Newsletter goes out',start: '2026-04-30T09:00', className: 'fc-cat-team' },
+  { title: 'Yoga',               start: '2026-04-30T19:00', className: 'fc-cat-personal' },
 ];
 
 const VIEW_MAP = { Day: 'timeGridDay', Week: 'timeGridWeek', Month: 'dayGridMonth', Agenda: 'listWeek' };
@@ -122,6 +113,16 @@ async function build(host) {
     editable: true,
     events: SEED_EVENTS,
     dayHeaderFormat: { weekday: 'short' },
+    /* Timed events default to a dot + label in month view. The 2026 design uses
+       filled pills, and `block` is what makes FullCalendar paint the event with
+       --fc-event-color / --fc-event-contrast-color (see _fullcalendar.scss). */
+    eventDisplay: 'block',
+    /* v7 emits hashed class names, so the mono uppercase column headers can't be
+       reached with a selector. Rendering our own element gives the stylesheet a
+       stable hook. */
+    dayHeaderContent: (arg) => ({
+      html: `<span class="fc-dow">${arg.text}</span>`,
+    }),
   });
   calendar.render();
   bindToolbar(host);

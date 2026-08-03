@@ -1,6 +1,6 @@
 {
   "name": "adminator-admin-dashboard",
-  "version": "4.2.1",
+  "version": "4.3.0",
   "private": false,
   "description": "Adminator 2026 — vanilla-JS admin dashboard with a token-driven design system, dark mode, Chart.js, FullCalendar, and jsvectormap. No jQuery, no Bootstrap.",
   "main": "dist/index.html",
@@ -97,12 +97,8 @@
     "webpack-dev-server": "^6.0.0"
   },
   "dependencies": {
-    "@fullcalendar/core": "^6.1.21",
-    "@fullcalendar/daygrid": "^6.1.21",
-    "@fullcalendar/interaction": "^6.1.21",
-    "@fullcalendar/list": "^6.1.21",
-    "@fullcalendar/timegrid": "^6.1.21",
     "chart.js": "^4.5.1",
+    "fullcalendar": "^7.0.2",
     "jsvectormap": "^1.7.0"
   },
   "overrides": {
