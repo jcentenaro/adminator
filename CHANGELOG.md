@@ -1,5 +1,30 @@
 # Changelog
 
+## [4.2.1] - 2026-08-03
+
+### The npm package shipped a development build
+
+`prepublishOnly` ran `npm run build`, and that script never set `NODE_ENV`, so webpack fell through to development mode. The published tarball therefore contained no extracted stylesheet at all — `style-loader` had injected the entire design system into the JavaScript bundle — plus source maps, no minification and no contenthashed filenames.
+
+This was not new in 4.2.0; every v4 release on npm shipped this way. `dist/` in the GitHub release zips was always correct, because `release:minified` / `release:unminified` do set `NODE_ENV`.
+
+Both README and CLAUDE.md described `npm run build` as producing "unminified, extracted CSS", which is production-mode behaviour — the script simply never matched its own documentation. It now does, and is byte-identical to `release:unminified`.
+
+`prepublishOnly` also runs the test suite now, and builds the minified release rather than the debug one.
+
+### cross-env was being bypassed
+
+`release:minified` and `release:unminified` placed their environment assignments *before* `cross-env`:
+
+```
+NODE_ENV=production MINIFY=true cross-env webpack     # cross-env receives nothing
+cross-env NODE_ENV=production MINIFY=true webpack     # correct
+```
+
+On macOS and Linux the shell sets the variables itself, so this worked and the bug stayed invisible. On Windows it is a syntax error, which defeats the only reason `cross-env` is a dependency. `build:analyze` already had it right.
+
+`npm run preview` now sets `NODE_ENV=production`, so it serves the built `dist/` on port 3001 as `webpack/devServer.js` always intended. Without it, preview was just a slower duplicate of `npm start`.
+
 ## [4.2.0] - 2026-07-31
 
 Dependency refresh plus a performance, security and workflow audit.

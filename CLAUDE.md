@@ -155,7 +155,7 @@ Then in any page: `<canvas data-chart-key="my-chart"></canvas>`. The `t` argumen
 ## Commands
 
 - `npm start` — dev server at <http://localhost:4000> (HMR enabled). `npm run dev` is the same, wrapped in webpack-dashboard.
-- `npm run build` — build to `dist/` (unminified, extracted CSS).
+- `npm run build` — production build to `dist/`, unminified with extracted CSS (identical to `release:unminified`; useful for reading the output). Every build script sets `NODE_ENV` through `cross-env` — the env vars must come *after* `cross-env`, or Windows breaks.
 - `npm run release:minified` / `npm run release:unminified` — the two artifacts the release workflow ships.
 - `npm run lint` — ESLint (`./src ./webpack ./*.js`) + Stylelint (`./src/**/*.scss`), must be 0/0. Also `lint:js` / `lint:scss` individually.
 - `npm run build:analyze` — bundle analyzer report.

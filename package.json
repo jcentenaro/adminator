@@ -1,6 +1,6 @@
 {
   "name": "adminator-admin-dashboard",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "private": false,
   "description": "Adminator 2026 — vanilla-JS admin dashboard with a token-driven design system, dark mode, Chart.js, FullCalendar, and jsvectormap. No jQuery, no Bootstrap.",
   "main": "dist/index.html",
@@ -48,11 +48,11 @@
     "start": "webpack server",
     "dev": "webpack-dashboard -t 'Project' -- webpack server",
     "clean": "shx rm -rf ./dist",
-    "build": "npm run clean && cross-env webpack",
+    "build": "npm run clean && cross-env NODE_ENV=production MINIFY=false webpack",
     "build:analyze": "npm run clean && cross-env ANALYZE=true NODE_ENV=production webpack",
-    "release:minified": "npm run clean && NODE_ENV=production MINIFY=true cross-env webpack",
-    "release:unminified": "npm run clean && NODE_ENV=production MINIFY=false cross-env webpack",
-    "preview": "cross-env webpack server",
+    "release:minified": "npm run clean && cross-env NODE_ENV=production MINIFY=true webpack",
+    "release:unminified": "npm run clean && cross-env NODE_ENV=production MINIFY=false webpack",
+    "preview": "cross-env NODE_ENV=production webpack server",
     "lint:js": "eslint ./src ./webpack ./tests ./*.js -f table",
     "lint:scss": "stylelint ./src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:scss",
@@ -60,7 +60,7 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "screenshots": "node scripts/screenshots.mjs",
-    "prepublishOnly": "npm run lint && npm run build",
+    "prepublishOnly": "npm run lint && npm run test:run && npm run release:minified",
     "postpublish": "echo 'Package published successfully! View at: https://www.npmjs.com/package/adminator-admin-dashboard'"
   },
   "devDependencies": {
