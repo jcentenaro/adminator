@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -56,11 +56,29 @@ jobs:
         id: version
         run: echo "version=v$(./ci/getVersion.sh)" >> $GITHUB_OUTPUT
 
-      - name: Verify version
-        run: ./ci/verifyVersion.sh ${{ steps.version.outputs.version }}
+      # Not every push to master is a release — docs and CI commits land here
+      # too. Skip rather than fail when the tag already exists, so infra
+      # commits don't leave red runs on master. merge.yml keeps the hard
+      # failure, so a PR that is meant to ship must still bump the version.
+      - name: Check whether this version is already released
+        id: check
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          case "$VERSION" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *) echo "::error::'$VERSION' is not a vMAJOR.MINOR.PATCH tag."; exit 1 ;;
+          esac
+          if [ -n "$(git ls-remote --tags origin "$VERSION")" ]; then
+            echo "::notice::$VERSION is already released — skipping the release step."
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "::notice::$VERSION is new — cutting a release."
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        if: steps.check.outputs.should_release == 'true'
+        uses: softprops/action-gh-release@v3
         with:
           name: ${{ steps.version.outputs.version }}
           tag_name: ${{ steps.version.outputs.version }}

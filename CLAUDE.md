@@ -180,7 +180,9 @@ npx vitest run -t 'renders the sidebar'    # one test by name
 
 `.github/workflows/merge.yml` runs lint, tests, `npm audit --omit=dev --audit-level=high`, and a build on PRs to `master`, across Node 22.x and 24.x. `release.yml` runs on push to `master`, builds both zips, verifies the archive structure, and cuts a GitHub release tagged `v<package.json version>`.
 
-`ci/verifyVersion.sh` fails the build if that tag already exists, so **bump `version` in `package.json` in any PR that should ship**. The version string is also hard-coded twice in `Shell.js` (`.brand-tag` and the footer) — update those in the same commit or the UI drifts from the release.
+The two workflows treat an already-released version differently, on purpose. `merge.yml` runs `ci/verifyVersion.sh`, which **fails** when the tag exists — so **bump `version` in `package.json` in any PR that should ship**. `release.yml` instead **skips** its release step, because docs and CI commits also land on `master` and shouldn't leave red runs there.
+
+The version string is also hard-coded twice in `Shell.js` (`.brand-tag` and the footer) — update those in the same commit or the UI drifts from the release.
 
 Release zips are built with `(cd dist && zip -r ../name.zip .)`. Do not switch to `zip -j`: it junks paths and flattens `assets/static/**` into the archive root.
 
