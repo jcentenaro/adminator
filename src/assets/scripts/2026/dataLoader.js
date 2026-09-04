@@ -99,11 +99,32 @@ export function processMetricsData(rows) {
     };
   }
 
-  const planesKeys = ['planes', 'plan', 'cantplanes', 'totalplanes'];
-  const objMesKeys = ['objmes', 'objetivomes', 'objmesactual', 'objetivo'];
-  const vgMesKeys = ['vgmes', 'ventasmes', 'ventasgeneradasmes', 'vgmesactual'];
-  const rcaKeys = ['rca', 'totalrca'];
-  const vgTotalKeys = ['vgtotal', 'ventastotal', 'ventasgeneradastotal', 'totalvg'];
+  const planesKeys = ['planes', 'plan', 'cantplanes', 'totalplanes', 'cantidadplanes'];
+  const objMesKeys = [
+    'objmesplanact',
+    'objmesplanactual',
+    'objmesplan',
+    'objmes',
+    'objetivomes',
+    'objmesactual',
+    'objetivo',
+  ];
+  const vgMesKeys = [
+    'vgmes',
+    'ventasmes',
+    'ventasgeneradasmes',
+    'vgmesactual',
+    'vgmesact',
+    'ventasgeneradas',
+  ];
+  const rcaKeys = ['rca', 'totalrca', 'rcaacumulado'];
+  const vgTotalKeys = [
+    'vgtotal',
+    'ventastotal',
+    'ventasgeneradastotal',
+    'totalvg',
+    'vgacumulado',
+  ];
 
   // Filter out records where PLANES == 0
   const filtered = rows.filter((row) => {

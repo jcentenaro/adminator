@@ -33,28 +33,28 @@ describe('dataLoader.js', () => {
       const mockRows = [
         {
           'PLANES': 5,
-          'OBJ. MES': 100,
+          'OBJ. MES PLAN ACT.': 100,
           'VG. MES': 80,
           'RCA': 20,
           'VG. TOTAL': 120,
         },
         {
           'PLANES': 0, // Should be ignored
-          'OBJ. MES': 500,
+          'OBJ. MES PLAN ACT.': 500,
           'VG. MES': 400,
           'RCA': 100,
           'VG. TOTAL': 600,
         },
         {
           'PLANES': '0', // Should be ignored
-          'OBJ. MES': 300,
+          'OBJ. MES PLAN ACT.': 300,
           'VG. MES': 200,
           'RCA': 50,
           'VG. TOTAL': 350,
         },
         {
           'PLANES': 3,
-          'OBJ. MES': 50,
+          'OBJ. MES PLAN ACT.': 50,
           'VG. MES': 40,
           'RCA': 10,
           'VG. TOTAL': 60,
@@ -112,3 +112,4 @@ describe('dataLoader.js', () => {
     });
   });
 });
+
