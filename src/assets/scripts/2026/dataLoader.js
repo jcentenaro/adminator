@@ -30,20 +30,35 @@ export function parseNumber(val) {
   let str = String(val).trim().replace(/\$/g, '').replace(/%/g, '').replace(/\s/g, '');
   if (!str) return 0;
 
+  // Case 1: Both comma and dot present
   if (str.includes(',') && str.includes('.')) {
-    if (str.indexOf('.') < str.indexOf(',')) {
-      // 1.234,56 -> 1234.56
+    const lastDot = str.lastIndexOf('.');
+    const lastComma = str.lastIndexOf(',');
+    if (lastDot < lastComma) {
+      // LatAm / European: 156.541.359,50 -> 156541359.50
       str = str.replace(/\./g, '').replace(',', '.');
     } else {
-      // 1,234.56 -> 1234.56
+      // US format: 156,541,359.50 -> 156541359.50
       str = str.replace(/,/g, '');
     }
   } else if (str.includes(',')) {
-    str = str.replace(',', '.');
+    const commaCount = (str.match(/,/g) || []).length;
+    if (commaCount > 1) {
+      // Multiple commas: 156,541,359 -> 156541359
+      str = str.replace(/,/g, '');
+    } else {
+      str = str.replace(',', '.');
+    }
   } else if (str.includes('.')) {
-    // e.g. "3.500" (thousands in ES/AR)
-    if (/^\d{1,3}\.\d{3}$/.test(str)) {
-      str = str.replace('.', '');
+    const dotCount = (str.match(/\./g) || []).length;
+    if (dotCount > 1) {
+      // Multiple dots: 156.541.359 or 1.742.921 -> 156541359
+      str = str.replace(/\./g, '');
+    } else {
+      // Single dot: e.g. 74.819 or 3.500
+      if (/^\d+\.\d{3}$/.test(str)) {
+        str = str.replace('.', '');
+      }
     }
   }
 
@@ -52,16 +67,18 @@ export function parseNumber(val) {
 }
 
 /**
- * Finds a value in a row matching any of the candidate keys.
+ * Finds a value in a row matching any of the candidate keys in order of priority.
  * @param {Object} row
  * @param {Array<string>} candidateNormalizedKeys
  * @returns {any}
  */
 export function getRowValue(row, candidateNormalizedKeys) {
-  for (const [key, value] of Object.entries(row)) {
-    const norm = normalizeKey(key);
-    if (candidateNormalizedKeys.includes(norm)) {
-      return value;
+  for (const cand of candidateNormalizedKeys) {
+    for (const [key, value] of Object.entries(row)) {
+      const norm = normalizeKey(key);
+      if (norm === cand) {
+        return value;
+      }
     }
   }
   return 0;
@@ -74,7 +91,6 @@ export function getRowValue(row, candidateNormalizedKeys) {
  */
 export function formatValue(num) {
   if (num === null || num === undefined || isNaN(num)) return '0';
-  // If integer or decimal
   const isInt = Number.isInteger(num);
   return num.toLocaleString('es-AR', {
     minimumFractionDigits: isInt ? 0 : 2,
@@ -111,6 +127,7 @@ export function processMetricsData(rows) {
   ];
   const vgMesKeys = [
     'vgmes',
+    'vgmesplanact',
     'ventasmes',
     'ventasgeneradasmes',
     'vgmesactual',
@@ -120,6 +137,8 @@ export function processMetricsData(rows) {
   const rcaKeys = ['rca', 'totalrca', 'rcaacumulado'];
   const vgTotalKeys = [
     'vgtotal',
+    'vgtotalact',
+    'vgtotalplanact',
     'ventastotal',
     'ventasgeneradastotal',
     'totalvg',

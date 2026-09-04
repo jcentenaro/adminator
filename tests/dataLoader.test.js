@@ -23,6 +23,9 @@ describe('dataLoader.js', () => {
       expect(parseNumber('1.250,50')).toBe(1250.5);
       expect(parseNumber('1250.50')).toBe(1250.5);
       expect(parseNumber('$ 3.500')).toBe(3500);
+      expect(parseNumber('74.819')).toBe(74819);
+      expect(parseNumber('1.742.921')).toBe(1742921);
+      expect(parseNumber('156.541.359')).toBe(156541359);
       expect(parseNumber('0')).toBe(0);
       expect(parseNumber('')).toBe(0);
     });
@@ -33,6 +36,7 @@ describe('dataLoader.js', () => {
       const mockRows = [
         {
           'PLANES': 5,
+          'OBJ. MES': 100,
           'OBJ. MES PLAN ACT.': 100,
           'VG. MES': 80,
           'RCA': 20,
@@ -40,6 +44,7 @@ describe('dataLoader.js', () => {
         },
         {
           'PLANES': 0, // Should be ignored
+          'OBJ. MES': 500,
           'OBJ. MES PLAN ACT.': 500,
           'VG. MES': 400,
           'RCA': 100,
@@ -47,6 +52,7 @@ describe('dataLoader.js', () => {
         },
         {
           'PLANES': '0', // Should be ignored
+          'OBJ. MES': 300,
           'OBJ. MES PLAN ACT.': 300,
           'VG. MES': 200,
           'RCA': 50,
@@ -54,6 +60,7 @@ describe('dataLoader.js', () => {
         },
         {
           'PLANES': 3,
+          'OBJ. MES': 50,
           'OBJ. MES PLAN ACT.': 50,
           'VG. MES': 40,
           'RCA': 10,

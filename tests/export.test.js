@@ -43,4 +43,3 @@ describe('export.js — getKpiExportData', () => {
     });
   });
 });
-

@@ -33,11 +33,6 @@
             <p class="hero-sub">Total visits are <strong>+10%</strong> week over week, unique visitors steady, and bounce rate holding at 33%. Two new regions came online overnight.</p>
           </div>
           <div class="hero-actions">
-            <input type="file" id="importExcelInput" accept=".xlsx, .xls, .csv" style="display: none;" />
-            <button class="btn btn--ghost" id="importBtn" onclick="document.getElementById('importExcelInput').click()" title="Cargar archivo Excel o CSV">
-              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
-              Cargar Excel
-            </button>
             <button class="btn btn--ghost" id="exportBtn" data-action="export-excel">
               <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
               Exportar
@@ -49,7 +44,7 @@
           </div>
         </section>
 
-        <!-- KPI CARDS — OBJ. MES / VG. MES / RCA -->
+        <!-- KPI CARDS — Total Visits / Page Views / Unique Visitors / Bounce Rate -->
         <section class="kpi-grid" aria-label="Key metrics">
           <article class="kpi-card c-success">
             <div class="kpi-top">
@@ -57,17 +52,17 @@
                 <div class="kpi-icon success">
                   <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
-                <div class="kpi-label">OBJ. MES</div>
+                <div class="kpi-label">Visitas totales</div>
               </div>
               <span class="kpi-pill up">
                 <svg viewBox="0 0 24 24"><path d="M7 17l10-10M7 7h10v10"/></svg>
                 +10%
               </span>
             </div>
-            <div class="kpi-value" id="kpi-obj-mes">0</div>
+            <div class="kpi-value">1.24<sup>M</sup></div>
             <div class="kpi-compare">
               <svg class="up" viewBox="0 0 24 24"><path d="M7 17l10-10M7 7h10v10"/></svg>
-              total objetivo mes
+              subió respecto a <strong>1.12M</strong> <span class="sep">·</span> la semana pasada
             </div>
           </article>
 
@@ -77,17 +72,17 @@
                 <div class="kpi-icon danger">
                   <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8M8 9h2"/></svg>
                 </div>
-                <div class="kpi-label">VG. MES</div>
+                <div class="kpi-label">Páginas vistas</div>
               </div>
               <span class="kpi-pill down">
                 <svg viewBox="0 0 24 24"><path d="M7 7l10 10M7 17h10V7"/></svg>
                 −7%
               </span>
             </div>
-            <div class="kpi-value" id="kpi-vg-mes">0</div>
+            <div class="kpi-value">4.08<sup>M</sup></div>
             <div class="kpi-compare">
               <svg class="down" viewBox="0 0 24 24"><path d="M7 7l10 10M7 17h10V7"/></svg>
-              total ventas generadas mes
+              bajó respecto a <strong>4.39M</strong> <span class="sep">·</span> la semana pasada
             </div>
           </article>
 
@@ -97,60 +92,37 @@
                 <div class="kpi-icon purple">
                   <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
                 </div>
-                <div class="kpi-label">RCA</div>
+                <div class="kpi-label">Visitas únicas</div>
               </div>
               <span class="kpi-pill flat">
                 <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
                 ~12%
               </span>
             </div>
-            <div class="kpi-value" id="kpi-rca">0</div>
+            <div class="kpi-value">842<sup>K</sup></div>
             <div class="kpi-compare">
               <svg class="flat" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-              total RCA acumulado
+              se mantiene en <strong>835K</strong> <span class="sep">·</span> la semana pasada
             </div>
           </article>
-        </section>
 
-        <!-- KPI CARDS — VG. TOTAL / PLANES -->
-        <section class="kpi-grid kpi-grid-2" aria-label="Secondary metrics">
           <article class="kpi-card c-primary">
             <div class="kpi-top">
               <div class="kpi-identity">
                 <div class="kpi-icon primary">
                   <svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
                 </div>
-                <div class="kpi-label">VG. TOTAL</div>
+                <div class="kpi-label">Tasa de rebote</div>
               </div>
               <span class="kpi-pill info">
                 <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-                total
+                estable
               </span>
             </div>
-            <div class="kpi-value" id="kpi-vg-total">0</div>
+            <div class="kpi-value">33<sup>%</sup></div>
             <div class="kpi-compare">
               <svg class="info" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-              total ventas generadas
-            </div>
-          </article>
-
-          <article class="kpi-card c-warning">
-            <div class="kpi-top">
-              <div class="kpi-identity">
-                <div class="kpi-icon warning">
-                  <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                </div>
-                <div class="kpi-label">PLANES</div>
-              </div>
-              <span class="kpi-pill warn">
-                <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-                total
-              </span>
-            </div>
-            <div class="kpi-value" id="kpi-planes">0</div>
-            <div class="kpi-compare">
-              <svg class="info" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-              total planes activos (PLANES &gt; 0)
+              igual a <strong>33%</strong> <span class="sep">·</span> la semana pasada
             </div>
           </article>
         </section>
@@ -176,34 +148,34 @@
               <div class="sv-region">
                 <div class="sv-region-head">
                   <span class="marker" style="background: var(--purple);"></span>
-                  OBJ. MES
+                  Estados Unidos
                 </div>
-                <div class="sv-region-value" id="geo-obj-mes">0<span class="pct" id="geo-obj-mes-pct">0%</span></div>
-                <div class="sv-region-bar"><div class="sv-region-bar-fill" id="geo-obj-mes-bar" style="width: 0%; background: var(--purple);"></div></div>
+                <div class="sv-region-value">100K<span class="pct">50%</span></div>
+                <div class="sv-region-bar"><div class="sv-region-bar-fill" style="width: 50%; background: var(--purple);"></div></div>
               </div>
               <div class="sv-region">
                 <div class="sv-region-head">
                   <span class="marker" style="background: var(--success);"></span>
-                  VG. MES
+                  Europa
                 </div>
-                <div class="sv-region-value" id="geo-vg-mes">0<span class="pct" id="geo-vg-mes-pct">0%</span></div>
-                <div class="sv-region-bar"><div class="sv-region-bar-fill" id="geo-vg-mes-bar" style="width: 0%; background: var(--success);"></div></div>
+                <div class="sv-region-value">1M<span class="pct">80%</span></div>
+                <div class="sv-region-bar"><div class="sv-region-bar-fill" style="width: 80%; background: var(--success);"></div></div>
               </div>
               <div class="sv-region">
                 <div class="sv-region-head">
                   <span class="marker" style="background: var(--info);"></span>
-                  RCA
+                  Australia
                 </div>
-                <div class="sv-region-value" id="geo-rca">0<span class="pct" id="geo-rca-pct">0%</span></div>
-                <div class="sv-region-bar"><div class="sv-region-bar-fill" id="geo-rca-bar" style="width: 0%; background: var(--info);"></div></div>
+                <div class="sv-region-value">450K<span class="pct">40%</span></div>
+                <div class="sv-region-bar"><div class="sv-region-bar-fill" style="width: 40%; background: var(--info);"></div></div>
               </div>
               <div class="sv-region">
                 <div class="sv-region-head">
                   <span class="marker" style="background: #64748B;"></span>
-                  VG. TOTAL
+                  India
                 </div>
-                <div class="sv-region-value" id="geo-vg-total">0<span class="pct" id="geo-vg-total-pct">0%</span></div>
-                <div class="sv-region-bar"><div class="sv-region-bar-fill" id="geo-vg-total-bar" style="width: 0%; background: #64748B;"></div></div>
+                <div class="sv-region-value">1B<span class="pct">90%</span></div>
+                <div class="sv-region-bar"><div class="sv-region-bar-fill" style="width: 90%; background: #64748B;"></div></div>
               </div>
             </div>
 
