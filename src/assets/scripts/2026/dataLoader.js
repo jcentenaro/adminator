@@ -19,7 +19,7 @@ export function normalizeKey(key) {
 }
 
 /**
- * Parses numeric strings (handles commas, dots, currency symbols).
+ * Parses numeric strings (handles commas, dots, currency symbols, millions).
  * @param {any} val
  * @returns {number}
  */
