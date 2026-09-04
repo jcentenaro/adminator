@@ -36,11 +36,13 @@ function initThemeToggle() {
 function initHeroDate() {
   const el = document.getElementById('heroDate');
   if (!el) return;
-  const fmt = new Intl.DateTimeFormat('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
-  }).format(new Date());
-  const parts = fmt.replace(/,/g, '').split(' ');
-  el.textContent = `${parts[0]} · ${parts[1]} ${parts[2]} · ${parts[3]}`;
+  const now = new Date();
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  const weekday = cap(now.toLocaleDateString('es-ES', { weekday: 'long' }));
+  const month = cap(now.toLocaleDateString('es-ES', { month: 'long' }));
+  const day = now.getDate();
+  const year = now.getFullYear();
+  el.textContent = `${weekday} · ${day} de ${month} · ${year}`;
 }
 
 function initNavGroups() {
