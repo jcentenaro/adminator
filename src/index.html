@@ -28,7 +28,6 @@
         <!-- HERO -->
         <section class="hero">
           <div class="hero-text">
-            <span class="eyebrow" id="heroDate">Thursday · April 23 · 2026</span>
             <span class="eyebrow" id="heroDate">Viernes · 4 de Septiembre · 2026</span>
             <h1 class="hero-title">Bienvenido otra vez, <span class="accent">Juan</span></h1>
             <p class="hero-sub">Total visits are <strong>+10%</strong> week over week, unique visitors steady, and bounce rate holding at 33%. Two new regions came online overnight.</p>
@@ -210,34 +209,34 @@
 
             <div class="sv-divider"></div>
 
-            <!-- 3 radial KPIs: New Users 75% (red) / New Purchases 50% (blue) / Bounce Rate 90% (orange) -->
+            <!-- 3 radial KPIs: Cumplimiento / VG. MES vs RCA / Tasa de rebote -->
             <div class="sv-radials">
               <div class="sv-radial">
                 <div class="sv-radial-chart">
                   <svg viewBox="0 0 80 80">
                     <circle class="radial-track" cx="40" cy="40" r="32"/>
-                    <circle class="radial-fill danger" cx="40" cy="40" r="32"
-                      stroke-dasharray="201.06" stroke-dashoffset="50.27"/>
+                    <circle class="radial-fill danger" id="radial-cumplimiento-bar" cx="40" cy="40" r="32"
+                      stroke-dasharray="201.06" stroke-dashoffset="201.06"/>
                   </svg>
-                  <span class="pct">75%</span>
+                  <span class="pct" id="radial-cumplimiento-pct">0%</span>
                 </div>
                 <div class="sv-radial-text">
-                  <div class="sv-radial-name">Nuevos usuarios</div>
-                  <div class="sv-radial-caption">visitantes primerizos</div>
+                  <div class="sv-radial-name">Porcentaje de Cumplimiento</div>
+                  <div class="sv-radial-caption">VG. MES / OBJ. MES</div>
                 </div>
               </div>
               <div class="sv-radial">
                 <div class="sv-radial-chart">
                   <svg viewBox="0 0 80 80">
                     <circle class="radial-track" cx="40" cy="40" r="32"/>
-                    <circle class="radial-fill info" cx="40" cy="40" r="32"
-                      stroke-dasharray="201.06" stroke-dashoffset="100.53"/>
+                    <circle class="radial-fill info" id="radial-vg-rca-bar" cx="40" cy="40" r="32"
+                      stroke-dasharray="201.06" stroke-dashoffset="201.06"/>
                   </svg>
-                  <span class="pct">50%</span>
+                  <span class="pct" id="radial-vg-rca-pct">0%</span>
                 </div>
                 <div class="sv-radial-text">
-                  <div class="sv-radial-name">Nuevas compras</div>
-                  <div class="sv-radial-caption">de nuevas visitas</div>
+                  <div class="sv-radial-name">Relación VG. MES / RCA</div>
+                  <div class="sv-radial-caption">VG. MES / RCA</div>
                 </div>
               </div>
               <div class="sv-radial">

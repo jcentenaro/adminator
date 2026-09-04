@@ -76,6 +76,8 @@ describe('dataLoader.js', () => {
       expect(result.totalVgMes).toBe(120);
       expect(result.totalRca).toBe(30);
       expect(result.totalVgTotal).toBe(180);
+      expect(result.cumplimientoPct).toBe(80); // 120 / 150 * 100
+      expect(result.vgRcaPct).toBe(400); // 120 / 30 * 100
     });
   });
 
@@ -95,16 +97,22 @@ describe('dataLoader.js', () => {
         <div id="geo-vg-mes-bar" style="width: 0%;"></div>
         <div id="geo-rca-bar" style="width: 0%;"></div>
         <div id="geo-vg-total-bar" style="width: 0%;"></div>
+        <div id="radial-cumplimiento-pct">0%</div>
+        <div id="radial-cumplimiento-bar" style="stroke-dashoffset: 201.06;"></div>
+        <div id="radial-vg-rca-pct">0%</div>
+        <div id="radial-vg-rca-bar" style="stroke-dashoffset: 201.06;"></div>
       `;
     });
 
-    it('updates DOM elements with formatted values', () => {
+    it('updates DOM elements with formatted values including radial KPIs', () => {
       const metrics = {
         totalObjMes: 1500,
         totalVgMes: 1200,
         totalRca: 300,
         totalVgTotal: 1800,
         totalPlanes: 50,
+        cumplimientoPct: 80,
+        vgRcaPct: 400,
         count: 10,
       };
 
@@ -116,6 +124,8 @@ describe('dataLoader.js', () => {
       expect(document.getElementById('kpi-vg-total').textContent).toBe(formatValue(1800));
       expect(document.getElementById('kpi-planes').textContent).toBe(formatValue(50));
       expect(document.getElementById('geo-obj-mes').textContent).toContain(formatValue(1500));
+      expect(document.getElementById('radial-cumplimiento-pct').textContent).toBe('80%');
+      expect(document.getElementById('radial-vg-rca-pct').textContent).toBe('400%');
     });
   });
 });

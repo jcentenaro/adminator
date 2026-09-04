@@ -165,12 +165,17 @@ export function processMetricsData(rows) {
     totalPlanes += parseNumber(getRowValue(row, planesKeys));
   });
 
+  const cumplimientoPct = totalObjMes > 0 ? (totalVgMes / totalObjMes) * 100 : 0;
+  const vgRcaPct = totalRca > 0 ? (totalVgMes / totalRca) * 100 : 0;
+
   return {
     totalObjMes,
     totalVgMes,
     totalRca,
     totalVgTotal,
     totalPlanes,
+    cumplimientoPct,
+    vgRcaPct,
     count: filtered.length,
   };
 }
@@ -216,6 +221,25 @@ export function renderMetrics(metrics) {
   updateGeoItem('geo-vg-mes', 'geo-vg-mes-pct', 'geo-vg-mes-bar', metrics.totalVgMes);
   updateGeoItem('geo-rca', 'geo-rca-pct', 'geo-rca-bar', metrics.totalRca);
   updateGeoItem('geo-vg-total', 'geo-vg-total-pct', 'geo-vg-total-bar', metrics.totalVgTotal);
+
+  // 3. Radial KPIs
+  const C = 201.06;
+  const updateRadial = (pctId, barId, pctVal) => {
+    const pctEl = document.getElementById(pctId);
+    const barEl = document.getElementById(barId);
+    const rounded = Math.round(pctVal * 10) / 10;
+    const formatted = `${rounded.toLocaleString('es-AR')}%`;
+
+    if (pctEl) pctEl.textContent = formatted;
+    if (barEl) {
+      const fillPct = Math.min(100, Math.max(0, pctVal));
+      const offset = C - (C * fillPct) / 100;
+      barEl.style.strokeDashoffset = offset.toFixed(2);
+    }
+  };
+
+  updateRadial('radial-cumplimiento-pct', 'radial-cumplimiento-bar', metrics.cumplimientoPct);
+  updateRadial('radial-vg-rca-pct', 'radial-vg-rca-bar', metrics.vgRcaPct);
 }
 
 /**
