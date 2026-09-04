@@ -19,6 +19,7 @@ import { initVectorMaps } from './maps.js';
 import { initCalendarPage } from './calendar.js';
 import { initPalette } from './palette.js';
 import { initExport } from './export.js';
+import { initDataLoader } from './dataLoader.js';
 
 function start() {
   mountShell();
@@ -28,6 +29,7 @@ function start() {
   initVectorMaps();
   initCalendarPage();
   initExport();
+  initDataLoader();
 }
 
 if (document.readyState === 'loading') {

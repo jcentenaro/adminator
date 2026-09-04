@@ -2,9 +2,14 @@
 
 /* KPI grid */
 .kpi-grid {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   margin-bottom: 20px;
+
+  &.kpi-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .kpi-card {
   background: var(--bg-card);
